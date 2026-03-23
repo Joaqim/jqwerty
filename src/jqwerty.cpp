@@ -41,24 +41,6 @@ static bool keycodeToQwertyAsciiSym(int code, bool shift,
     }
 }
 
-// ── layout detection ──────────────────────────────────────────────────────────
-// Ask fcitx which input method is active for this context.
-// If it is the built-in "keyboard-us" with no variant (or variant "basic"),
-// we are already on positional QWERTY — no remapping needed.
-
-bool JQwertyAddon::isNonQwertyLayout(fcitx::InputContext *ic) const {
-    const auto *entry = instance_->inputMethodEntry(ic);
-    if (!entry) return false;                    // no active IM → safe to skip
-
-    // The keyboard IM name is "keyboard-<layout>-<variant>" or "keyboard-<layout>"
-    // e.g. "keyboard-us-dvp", "keyboard-us-dvorak", "keyboard-us"
-    const std::string &name = entry->uniqueName();
-    if (name == "keyboard-us" || name == "keyboard-us-basic")
-        return false;                             // plain QWERTY, nothing to do
-
-    // Any other layout: remap
-    return name.rfind("keyboard-", 0) == 0;
-}
 
 // ── event filter ─────────────────────────────────────────────────────────────
 
@@ -80,8 +62,6 @@ bool JQwertyAddon::filterKey(fcitx::InputContext *ic,
     // AltGr (Mod5) without Ctrl/Meta → let the layout produce ä, €, etc.
     if (states.test(fcitx::KeyState::Mod5) && !hasCtrl && !hasMeta)
         return false;
-
-    if (!isNonQwertyLayout(ic)) return false;
 
     const int  code  = key.code();   // physical keycode — never key.sym()
     const bool shift = states.test(fcitx::KeyState::Shift);
