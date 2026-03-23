@@ -4,6 +4,7 @@ Version=@PROJECT_VERSION@
 Comment=Remap Ctrl/Alt shortcuts to QWERTY positions regardless of active layout
 Category=Module
 Library=fcitx5-jqwerty
+Enabled=True
 OnDemand=False
 Configurable=False
 Type=SharedLibrary
