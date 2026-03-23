@@ -51,9 +51,6 @@ bool JQwertyAddon::filterKey(fcitx::InputContext *ic,
     const fcitx::Key &key = event.key();
     const auto states = key.states();
 
-    FCITX_INFO() << "IM JQwerty"
-                << " received event: " << key.toString();
-
     const bool hasCtrl  = states.test(fcitx::KeyState::Ctrl);
     const bool hasAlt   = states.test(fcitx::KeyState::Alt);
     const bool hasMeta  = states.test(fcitx::KeyState::Super);
@@ -75,9 +72,6 @@ bool JQwertyAddon::filterKey(fcitx::InputContext *ic,
     if (static_cast<uint32_t>(qwertySym) ==
         static_cast<uint32_t>(key.sym()))
         return false;
-
-        FCITX_INFO() << "IM JQwerty"
-                << " Will attempt to convert key: " << key.toString() << " to QWERTY";
                 
     ic->forwardKey(fcitx::Key(qwertySym, states), event.isRelease());
     event.filterAndAccept();
