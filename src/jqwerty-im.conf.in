@@ -1,0 +1,10 @@
+[InputMethod]
+# Internal identifier used in fcitx5 config / DBus.
+Name=JQwerty
+Label=JQwerty
+# Human-readable name shown in the input method selector.
+NativeName=JQwerty (QWERTY shim)
+# Must match the addon Id in jqwerty-addon.conf.in.in
+Addon=jqwerty
+# The engine exposes a single generic input method.
+LangCode=en
