@@ -19,6 +19,8 @@ list(APPEND CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
 
 find_package(Fcitx5Core REQUIRED)             # provides Fcitx5::Core
 find_package(Fcitx5Utils REQUIRED)            # provides Fcitx5::Utils
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(XkbCommon REQUIRED xkbcommon)
 
 include(FeatureSummary)
 include(GNUInstallDirs)
@@ -39,6 +41,7 @@ target_include_directories(fcitx5-jqwerty PRIVATE
 target_link_libraries(fcitx5-jqwerty PRIVATE
     Fcitx5::Core
     Fcitx5::Utils
+    ${XkbCommon_LIBRARIES}
 )
 
 # fcitx5 plugins must not have a "lib" prefix.
@@ -64,18 +67,6 @@ configure_file(
 )
 install(FILES "${CMAKE_CURRENT_BINARY_DIR}/jqwerty-addon.conf"
     DESTINATION "${CMAKE_INSTALL_DATADIR}/fcitx5/addon"
-    RENAME "jqwerty.conf"
-)
-
-# Input method descriptor.
-configure_file(
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/jqwerty-im.conf.in"
-    jqwerty-im.conf
-    @ONLY
-)
-install(FILES
-    "${CMAKE_CURRENT_BINARY_DIR}/jqwerty-im.conf"
-    DESTINATION "${CMAKE_INSTALL_DATADIR}/fcitx5/inputmethod"
     RENAME "jqwerty.conf"
 )
 

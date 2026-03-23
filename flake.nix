@@ -56,7 +56,7 @@
             echo "Dev shell ready."
             echo "  cmake -B build -DCMAKE_BUILD_TYPE=Debug"
             echo "  cmake --build build"
-            echo "  FCITX_DEBUG=* fcitx5 -r  (uses FCITX_ADDON_DIRS above)"
+            echo "  FCITX_DEBUG=\"*\" fcitx5 -r  (uses FCITX_ADDON_DIRS above)"
           '';
         };
       }

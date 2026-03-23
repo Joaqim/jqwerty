@@ -1,37 +1,28 @@
 #pragma once
-
+#include <fcitx/addoninstance.h>
 #include <fcitx/addonfactory.h>
-#include <fcitx/addonmanager.h>
 #include <fcitx/event.h>
-#include <fcitx/inputmethodengine.h>
-#include <fcitx/instance.h>
+#include <fcitx/instance.h>            // fcitx::Instance, watchEvent
+#include <fcitx-utils/signals.h>       // EventConnection
 
-namespace fcitx {
+namespace fcitx { class InputContext; }
 
-class JQwertyEngine : public InputMethodEngineV2 {
+class JQwertyAddon : public fcitx::AddonInstance {
 public:
-    explicit JQwertyEngine(Instance *instance);
-    ~JQwertyEngine() override = default;
+    explicit JQwertyAddon(fcitx::Instance *instance);
+    ~JQwertyAddon() override = default;
 
-    // InputMethodEngineV2 interface
-    void keyEvent(const InputMethodEntry &entry, KeyEvent &keyEvent) override;
-    void activate(const InputMethodEntry &entry,
-                  InputContextEvent &event) override;
-    void deactivate(const InputMethodEntry &entry,
-                    InputContextEvent &event) override;
-    void reset(const InputMethodEntry &entry,
-               InputContextEvent &event) override;
-
-    Instance *instance() { return instance_; }
+    using KeyFilterConnection = std::unique_ptr<fcitx::HandlerTableEntry<std::function<void(fcitx::Event&)>>>;
 
 private:
-    Instance *instance_;
+    fcitx::Instance *instance_;
+    KeyFilterConnection keyFilterConn_;
+
+    bool filterKey(fcitx::InputContext *ic, fcitx::KeyEvent &event);
+    bool isNonQwertyLayout(fcitx::InputContext *ic) const;
 };
 
-class JQwertyEngineFactory : public AddonFactory {
-    AddonInstance *create(AddonManager *manager) override {
-        return new JQwertyEngine(manager->instance());
-    }
+class JQwertyAddonFactory : public fcitx::AddonFactory {
+public:
+    fcitx::AddonInstance *create(fcitx::AddonManager *manager) override;
 };
-
-} // namespace fcitx

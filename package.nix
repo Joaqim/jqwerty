@@ -4,11 +4,12 @@
   cmake,
   extra-cmake-modules,
   fcitx5,
+  libxkbcommon,
 }:
 
 stdenv.mkDerivation {
   pname = "fcitx5-jqwerty";
-  version = "0.1.0";
+  version = "0.1.1";
 
   src = lib.cleanSource ./.;
 
@@ -19,6 +20,7 @@ stdenv.mkDerivation {
 
   buildInputs = [
     fcitx5
+    libxkbcommon
   ];
 
   # Let fcitx5's cmake config set the correct addon/IM install dirs,
