@@ -23,12 +23,6 @@ stdenv.mkDerivation {
     libxkbcommon
   ];
 
-  # Let fcitx5's cmake config set the correct addon/IM install dirs,
-  # rather than letting cmake guess lib vs lib64.
-  cmakeFlags = [
-    "-DCMAKE_INSTALL_PREFIX=${placeholder "out"}"
-  ];
-
   meta = {
     description = "fcitx5 jqwerty engine — physical-position key remapping";
     license = lib.licenses.mit;

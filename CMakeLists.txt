@@ -44,7 +44,7 @@ target_link_libraries(fcitx5-jqwerty PRIVATE
     ${XkbCommon_LIBRARIES}
 )
 
-# fcitx5 plugins must not have a "lib" prefix.
+# Let's not use lib prefix for our custom fcitx5 plugin
 set_target_properties(fcitx5-jqwerty PROPERTIES
     PREFIX ""
     SUFFIX ".so"
